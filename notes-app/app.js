@@ -12,7 +12,7 @@
 // const getNotes = require("./notes.js");
 const chalk = require("chalk");
 const yargs = require("yargs");
-// const msg = getNotes();
+const notes = require("./notes");
 
 // console.log(msg);
 // console.log(validator.isEmail("hello@gmail.com"));
@@ -47,18 +47,25 @@ yargs.command({
     },
   },
   handler(argv) {
-    console.log(argv.title, argv.body);
+    notes.addNote(argv.title, argv.body);
   },
 });
-
 
 yargs.command({
   command: "remove",
-  describe: "removing a note",
-  handler: () => {
-    console.log("removing a new note!");
+  describe: "Remove a note",
+  builder: {
+    title: {
+      describe: "Note title",
+      demandOption: true,
+      type: "string",
+    },
+  },
+  handler(argv) {
+    notes.removeNote(argv.title);
   },
 });
+
 yargs.command({
   command: "list",
   describe: "listing notes",
@@ -66,6 +73,7 @@ yargs.command({
     console.log("listing notes!");
   },
 });
+
 yargs.command({
   command: "read",
   describe: "reading a note",
