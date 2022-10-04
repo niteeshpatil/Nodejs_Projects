@@ -37,6 +37,19 @@ const loadNotes = () => {
   }
 };
 
+const listNotes = () => {
+  const notes = loadNotes();
+
+  if (notes.length > 0) {
+    console.log(chalk.green("notes are..."));
+    notes.map((note) => {
+      console.log(note.title);
+    });
+  } else {
+    console.log(chalk.red("No note found!"));
+  }
+};
+
 const removeNote = (title) => {
   const notes = loadNotes();
   const notesToKeep = notes.filter((note) => note.title !== title);
@@ -53,4 +66,5 @@ module.exports = {
   getNotes: getNotes,
   addNote: addNote,
   removeNote: removeNote,
+  listNotes: listNotes,
 };
