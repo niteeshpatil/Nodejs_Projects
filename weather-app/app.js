@@ -16,5 +16,13 @@ const url =
 
 request({ url: url }, (error, res) => {
   const data = JSON.parse(res.body);
-  console.log(data.current);
+  console.log(
+    data.current.weather_descriptions[0] +
+      ". It is " +
+      data.current.temperature +
+      " degress, It feels like " +
+      data.current.feelslike +
+      " degress"
+  );
+  console.log("There is a " + data.current.precip * 100 + "% chance of rain");
 });
