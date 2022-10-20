@@ -36,6 +36,13 @@ app.get("/help", (req, res) => {
   });
 });
 
+app.get("*", (req, res) => {
+  res.render("404", {
+    title: "404",
+    name: "niteesh",
+  });
+});
+
 app.listen(3000, () => {
   console.log("Server is runing on port 3000");
 });
