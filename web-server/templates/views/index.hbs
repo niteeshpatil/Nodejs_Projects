@@ -1,14 +1,31 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css" />
-    <title>Document</title>
-  </head>
-  <body>
-     {{>header}}
-    <h1>hello i am handalnbar!{{title}}</h1>
-     {{>footer}}
-  </body>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Weather</title>
+     <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <div class="main-content">
+        {{>header}}
+
+        <p>Use this site to get your weather!</p>
+
+        <form>
+            <input placeholder="Location">
+            <button>Search</button>
+        </form>
+
+        <p id="message-1"></p>
+        <p id="message-2"></p>
+    </div>
+
+    {{>footer}}
+
+     <script src="/js/app.js"></script>
+</body>
+
 </html>
+
