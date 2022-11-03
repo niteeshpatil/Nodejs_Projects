@@ -21,7 +21,7 @@ MongoClient.connect(
 
     // db.collection("users").insertOne(
     //   {
-    //     name: "laxman",
+    //     name: "Niteeh",
     //     age: 22,
     //   },
     //   (error, result) => {
@@ -104,5 +104,56 @@ MongoClient.connect(
 
     //     console.log(tasks);
     //   });
+    // db.collection("users")
+    //   .updateOne(
+    //     {
+    //       _id: new ObjectID("636361100302a5387c3f2a4a"),
+    //     },
+    //     {
+    //       // $set: {
+    //       //   name: "laxman",
+    //       // },
+    //       // $inc: {
+    //       //   age: 1,
+    //       // },
+    //     }
+    //   )
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch(error);
+    // {
+    //   console.log(error);
+    // }
+
+    // db.collection("users")
+    //   .updateMany(
+    //     { age: 23 },
+    //     {
+    //       $set: {
+    //         age: 22,
+    //       },
+    //     }
+    //   )
+    //   .then((res) => console.log("succec"))
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    // db.collection("users")
+    //   .deleteMany({
+    //     name: "Niteesh",
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+
+
+
+    
   }
 );
