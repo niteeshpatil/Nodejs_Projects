@@ -15,15 +15,10 @@ app.use(express.json());
 
 // automaticaly parses incoming request to json
 
-// const router = new express.Router();
-// router.get("/test", (req, res) => {
-//   res.send("I am new router");
-// });
-// app.use(router);
-
 app.use(userRouter);
 app.use(taskRouter);
 
 app.listen(port, () => {
   console.log("Server is up runing on port" + port);
 });
+

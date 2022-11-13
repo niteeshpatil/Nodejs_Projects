@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "connect-mongo": "^3.2.0",
     "express": "^4.16.4",
     "mogoose": "0.0.1-security",
