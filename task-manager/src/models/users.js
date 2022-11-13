@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api", {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-});
+// mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api", {
+//   useNewUrlParser: true,
+//   useCreateIndex: true,
+//   useUnifiedTopology: true,
+// });
 
 const usrSchema = new mongoose.Schema({
   name: {
@@ -44,7 +46,25 @@ const usrSchema = new mongoose.Schema({
       }
     },
   },
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
+
+usrSchema.methods.generateAuthToken = async function () {
+  const user = this;
+  const token = await jwt.sign({ _id: user._id }, "thisismypassword");
+
+  user.tokens = user.tokens.concat({ token });
+
+  await user.save();
+  return token;
+};
 
 usrSchema.statics.findByIdCredentials = async (email, password) => {
   const user = await User.findOne({ email });

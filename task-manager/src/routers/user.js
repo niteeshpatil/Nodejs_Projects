@@ -1,12 +1,14 @@
 const express = require("express");
 const router = new express.Router();
 const User = require("../models/users");
+const auth = require("../middlewares/auth");
 
 // router.get("/test", (req, res) => {
 //   res.send("I am new router");
 // });
 
-router.get("/users", async (req, res) => {
+// for perticular router add middleware as 2nd argeument
+router.get("/users/me", auth, async (req, res) => {
   // User.find({})
   //   .then((users) => {
   //     res.send(users);
@@ -16,8 +18,8 @@ router.get("/users", async (req, res) => {
   //   });
 
   try {
-    const users = await User.find({});
-    res.send(users);
+    // const users = await User.find({});
+    res.send(req.user);
   } catch (e) {
     res.status(500).send();
   }
@@ -66,7 +68,8 @@ router.post("/users", async (req, res) => {
 
   try {
     await user.save();
-    res.status(201).send(user);
+    const token = await user.generateAuthToken();
+    res.status(201).send({ user, token });
   } catch (e) {
     res.status(400).send(e);
   }
@@ -78,7 +81,8 @@ router.post("/users/login", async (req, res) => {
       req.body.email,
       req.body.password
     );
-    res.send(user);
+    const token = await user.generateAuthToken();
+    res.send({ user, token });
   } catch (e) {
     res.status(400).send(e);
   }
