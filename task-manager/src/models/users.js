@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Task = require("./task");
 
 // mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api", {
 //   useNewUrlParser: true,
@@ -56,6 +57,31 @@ const usrSchema = new mongoose.Schema({
   ],
 });
 
+// virtual to relate task to user wihout storing them on user
+usrSchema.virtual("tasks", {
+  ref: "task",
+  localField: "_id",
+  foreignField: "owner",
+});
+
+// usrSchema.methods.getPublicProfile = async function () {
+//   const user = this;
+//   const userObject = user.toObject();
+
+//   delete userObject.password;
+//   delete userObject.tokens;
+
+//   return userObject;
+// };
+
+usrSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+
+  delete userObject.password;
+  delete userObject.tokens;
+  return userObject;
+};
 usrSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = await jwt.sign({ _id: user._id }, "thisismypassword");
@@ -91,6 +117,14 @@ usrSchema.pre("save", async function (next) {
   // next is called bz to contuine the next program
   next();
 });
+
+// Delete user tasks when user is removed
+usrSchema.pre("remove", async function (next) {
+  const user = this;
+  await Task.deleteMany({ owner: user._id });
+  next();
+});
+
 const User = mongoose.model("User", usrSchema);
 
 module.exports = User;
