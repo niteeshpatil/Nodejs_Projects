@@ -10,52 +10,55 @@ const Task = require("./task");
 //   useUnifiedTopology: true,
 // });
 
-const usrSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    lowercase: true,
-    validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error("Invalid email");
-      }
+const usrSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
     },
-  },
-  age: {
-    type: Number,
-    default: 0,
-    validate(value) {
-      if (value < 0) {
-        throw new Error("Age must be +ve");
-      }
-    },
-  },
-  password: {
-    type: String,
-    required: true,
-    trim: true,
-    validate(value) {
-      if (value.length < 6 || value.toLowerCase().includes("password")) {
-        throw new Error("Invalid Password");
-      }
-    },
-  },
-  tokens: [
-    {
-      token: {
-        type: String,
-        required: true,
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Invalid email");
+        }
       },
     },
-  ],
-});
+    age: {
+      type: Number,
+      default: 0,
+      validate(value) {
+        if (value < 0) {
+          throw new Error("Age must be +ve");
+        }
+      },
+    },
+    password: {
+      type: String,
+      required: true,
+      trim: true,
+      validate(value) {
+        if (value.length < 6 || value.toLowerCase().includes("password")) {
+          throw new Error("Invalid Password");
+        }
+      },
+    },
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
 // virtual to relate task to user wihout storing them on user
 usrSchema.virtual("tasks", {
