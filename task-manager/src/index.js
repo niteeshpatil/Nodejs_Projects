@@ -3,14 +3,14 @@ const mongoose = require("mongoose");
 const userRouter = require("../src/routers/user");
 const taskRouter = require("../src/routers/task");
 
-mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api", {
+mongoose.connect(process.env.MONGODB, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
 });
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 // new middleware
 
