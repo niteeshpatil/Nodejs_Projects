@@ -25,3 +25,19 @@ document
     msg = event.target.elements.msg.value;
     socket.emit("msgtoall", msg);
   });
+
+document.querySelector("#share-location").addEventListener("click", () => {
+  const loaction = navigator.geolocation;
+
+  if (!loaction) {
+    return alert("geolocation is not suported for your browser");
+  }
+
+  loaction.getCurrentPosition((Position) => {
+    // console.log(Position.coords);
+    socket.emit("sendLocation", {
+      latitude: Position.coords.latitude,
+      longitude: Position.coords.longitude,
+    });
+  });
+});
