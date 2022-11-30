@@ -8,6 +8,12 @@
   </head>
   <body>
     <h1>Chat-app</h1>
+    <!-- <button id="increment">+1</button> -->
+    <form id="msgtoall">
+      <label for="msg">Massage all</label>
+      <input type="text" id="msg" name="msg" />
+      <button onclick="submit">Send</button>
+    </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/chat.js"></script>
   </body>

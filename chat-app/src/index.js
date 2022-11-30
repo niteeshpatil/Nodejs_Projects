@@ -11,8 +11,29 @@ const publicDirPath = path.join(__dirname, "../public");
 
 app.use(express.static(publicDirPath));
 
+// let count = 0;
+
 io.on("connection", (socket) => {
   console.log("a user connected");
+
+  //   socket.emit("countUpdated", count);
+
+  //   socket.on("increment", () => {
+  //     count++;
+  //     //socket.emit("countUpdated", count);
+  //     io.emit("countUpdated", count);
+  //   });
+  socket.emit("msg", "Welcome!");
+  // brodecast send msg to all expect current user
+  socket.broadcast.emit("msg", "A new user entered");
+
+  socket.on("msgtoall", (msgall) => {
+    io.emit("fromany", msgall);
+  });
+
+  socket.on("disconnect", () => {
+    io.emit("msg", "A user left!");
+  });
 });
 
 server.listen(port, () => {
