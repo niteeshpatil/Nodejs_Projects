@@ -5,7 +5,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const path = require("path");
-
+const Filter = require("bad-words");
 const port = process.env.PORT || 3000;
 const publicDirPath = path.join(__dirname, "../public");
 
@@ -27,15 +27,23 @@ io.on("connection", (socket) => {
   // brodecast send msg to all expect current user
   socket.broadcast.emit("msg", "A new user entered");
 
-  socket.on("msgtoall", (msgall) => {
+  socket.on("msgtoall", (msgall, callback) => {
+    const filter = new Filter();
+
+    if (filter.isProfane(msgall)) {
+      return callback("Profanity is not allowed!");
+    }
     io.emit("fromany", msgall);
+    callback();
   });
 
-  socket.on("sendLocation", ({ latitude, longitude }) => {
+  socket.on("sendLocation", ({ latitude, longitude }, callback) => {
     socket.broadcast.emit(
       "msg",
       `https://google.com/maps?q=${latitude},${longitude}`
     );
+
+    callback("succesfully");
   });
 
   socket.on("disconnect", () => {

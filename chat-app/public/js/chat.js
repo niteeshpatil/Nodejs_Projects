@@ -23,7 +23,12 @@ document
   .addEventListener("submit", function (event) {
     event.preventDefault();
     msg = event.target.elements.msg.value;
-    socket.emit("msgtoall", msg);
+    socket.emit("msgtoall", msg, (error) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log("the massage was delivered!");
+    });
   });
 
 document.querySelector("#share-location").addEventListener("click", () => {
@@ -35,9 +40,15 @@ document.querySelector("#share-location").addEventListener("click", () => {
 
   loaction.getCurrentPosition((Position) => {
     // console.log(Position.coords);
-    socket.emit("sendLocation", {
-      latitude: Position.coords.latitude,
-      longitude: Position.coords.longitude,
-    });
+    socket.emit(
+      "sendLocation",
+      {
+        latitude: Position.coords.latitude,
+        longitude: Position.coords.longitude,
+      },
+      (msg) => {
+        console.log("location shered with all " + msg);
+      }
+    );
   });
 });
