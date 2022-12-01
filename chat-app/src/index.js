@@ -8,6 +8,7 @@ const path = require("path");
 const Filter = require("bad-words");
 const port = process.env.PORT || 3000;
 const publicDirPath = path.join(__dirname, "../public");
+const { genrateMessage, genratelocation } = require("./utils/messages");
 
 app.use(express.static(publicDirPath));
 
@@ -23,9 +24,9 @@ io.on("connection", (socket) => {
   //     //socket.emit("countUpdated", count);
   //     io.emit("countUpdated", count);
   //   });
-  socket.emit("msg", "Welcome!");
+  socket.emit("msg", genrateMessage("Welcome!"));
   // brodecast send msg to all expect current user
-  socket.broadcast.emit("msg", "A new user entered");
+  socket.broadcast.emit("msg", genrateMessage("A new user entered"));
 
   socket.on("msgtoall", (msgall, callback) => {
     const filter = new Filter();
@@ -33,21 +34,21 @@ io.on("connection", (socket) => {
     if (filter.isProfane(msgall)) {
       return callback("Profanity is not allowed!");
     }
-    io.emit("fromany", msgall);
+    io.emit("msg", genrateMessage(msgall));
     callback();
   });
 
   socket.on("sendLocation", ({ latitude, longitude }, callback) => {
     socket.broadcast.emit(
-      "msg",
-      `https://google.com/maps?q=${latitude},${longitude}`
+      "sharlocation",
+      genratelocation(`https://google.com/maps?q=${latitude},${longitude}`)
     );
 
     callback("succesfully");
   });
 
   socket.on("disconnect", () => {
-    io.emit("msg", "A user left!");
+    io.emit("msg", genrateMessage("A user left!"));
   });
 });
 

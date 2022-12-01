@@ -9,12 +9,28 @@
   <body>
     <h1>Chat-app</h1>
     <!-- <button id="increment">+1</button> -->
+    <div id="messages"></div>
     <form id="msgtoall">
       <label for="msg">Massage all</label>
       <input type="text" id="msg" name="msg" />
       <button onclick="submit">Send</button>
     </form>
     <button id="share-location">Share location</button>
+
+    <script id="message-template" type="text/html">
+      <div>
+        <p>{{msg}} - {{cratedAt}}</p>
+      </div>
+    </script>
+    <script id="location-template" type="text/html">
+      <div>
+        <a href="{{url}}">location - {{cratedAt}}</a>
+      </div>
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/chat.js"></script>
   </body>
