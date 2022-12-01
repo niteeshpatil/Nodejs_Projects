@@ -4,27 +4,43 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat-app</title>
+    <title>Chat App</title>
+    <link rel="icon" href="/img/favicon.png" />
+    <link rel="stylesheet" href="/css/styles.min.css" />
   </head>
   <body>
-    <h1>Chat-app</h1>
-    <!-- <button id="increment">+1</button> -->
-    <div id="messages"></div>
-    <form id="msgtoall">
-      <label for="msg">Massage all</label>
-      <input type="text" id="msg" name="msg" />
-      <button onclick="submit">Send</button>
-    </form>
-    <button id="share-location">Share location</button>
+    <div class="chat">
+      <div class="chat__sidebar"></div>
+      <div class="chat__main">
+        <div id="messages" class="chat__messages"></div>
+        <div class="compose">
+          <form id="msgtoall">
+            <input type="text" id="msg" name="msg" placeholder="Message" />
+            <button onclick="submit">Send</button>
+          </form>
+          <button id="share-location">Share location</button>
+        </div>
+      </div>
+    </div>
 
     <script id="message-template" type="text/html">
-      <div>
-        <p>{{msg}} - {{cratedAt}}</p>
+      <div class="message">
+        <p>
+          <span class="message__name">Some User Name</span>
+          <span class="message__meta">{{cratedAt}}</span>
+        </p>
+        <p>{{msg}}</p>
       </div>
     </script>
     <script id="location-template" type="text/html">
-      <div>
-        <a href="{{url}}">location - {{cratedAt}}</a>
+      <div class="message">
+        <p>
+          <span class="message__name">Some User Name</span>
+          <span class="message__meta">{{cratedAt}}</span>
+        </p>
+        <p>
+          <a href="{{url}}" target="_blank">My current location</a>
+        </p>
       </div>
     </script>
 
