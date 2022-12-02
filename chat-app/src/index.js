@@ -38,13 +38,7 @@ io.on("connection", (socket) => {
     }
 
     socket.join(user.room);
-    socket.emit(
-      "msg",
-      genrateMessage(
-        user.username,
-        `welcome! you are in  ${user.room} chat-room`
-      )
-    );
+    socket.emit("msg", genrateMessage(user.username, `welcome!`));
     // brodecast send msg to all expect current user
     socket.broadcast
       .to(user.room)
@@ -53,6 +47,10 @@ io.on("connection", (socket) => {
         genrateMessage(user.username, `${user.username} has joined`)
       );
 
+    io.to(user.room).emit("roomData", {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
     callback();
   });
 
@@ -95,6 +93,10 @@ io.on("connection", (socket) => {
         "msg",
         genrateMessage(user.username, `${user.username} left chat!`)
       );
+      io.to(user.room).emit("roomData", {
+        room: user.room,
+        users: getUsersInRoom(user.room),
+      });
     }
   });
 });
