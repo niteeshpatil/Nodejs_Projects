@@ -1,12 +1,14 @@
-const genrateMessage = (text) => {
+const genrateMessage = (username, text) => {
   return {
+    username,
     text,
     createdAt: new Date().getTime(),
   };
 };
 
-const genratelocation = (url) => {
+const genratelocation = (username, url) => {
   return {
+    username,
     url,
     createdAt: new Date().getTime(),
   };
